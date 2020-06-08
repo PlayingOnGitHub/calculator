@@ -27,3 +27,5 @@ I added two functions.
 
 -------------------------------------------------------------------------------
 
+I improved the reduceSigns( string ) function. It works now.
+I'm currently trying to filter my data into different arrays so I can process different math strings.

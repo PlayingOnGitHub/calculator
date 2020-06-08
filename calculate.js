@@ -41,58 +41,45 @@ const checkInput = function( userInputString ) {
 
 const reduceSigns = function( mathString ) {
     let mathArray = mathString.split("");
-    /* this trims all whitespace in string */
-    mathArray = mathArray.filter( (currentItem, currentIndex) => { 
-        if ( currentItem == " " ) {
-            return false;
+    mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
+    mathArray.forEach( (currentItem, currentIndex, itemArray) => {
+        let previousItem = itemArray[currentIndex-1];
+        let previousIndex = currentIndex - 1;
+        console.log( "Previous Item: " + mathArray[previousIndex] );
+        console.log( "Current Item: " + mathArray[currentIndex] );
+        if ( previousItem == "-" && currentItem == "-" ) {
+            mathArray[previousIndex] = "";
+            mathArray[currentIndex] = "+";
         }
-        else {
-            return true;
+        else if ( previousItem == "+" && currentItem == "-" ) {
+            mathArray[previousIndex] = "";
+            mathArray[currentIndex] = "-";
         }
-    } );
-    for ( let i = 0; i <= mathArray.length-1; i++ ) {
-        let currentItem = mathArray[i];
-        let previousItem = mathArray[i-1];
-        let nextItem = mathArray[i+1];
-        if ( i == 0 ) {
-            if ( mathArray[i] != "+" || mathArray[i] != "-") {
-                mathArray.unshift("+");
-            }
+        else if ( previousItem == "+" && currentItem == "+" ) {
+            mathArray[previousIndex] = "";
+            mathArray[currentIndex] = "+";
         }
-        else {
-            if (currentItem == "-" && previousItem == "-" ) {
-                mathArray[i] = "+";
-                mathArray[i-1] = "";
-            }
-            else if (currentItem == "+" && previousItem == "-" || currentItem == "-" && previousItem == "+") {
-                mathArray[i] = "-";
-                mathArray[i-1] = "";
-            }
-
-            if (previousItem == "/" && nextItem != "+" || previousItem == "/" && nextItem != "-") {
-                mathArray[i] = "+";
-            }
-
-            else if (previousItem == "*" && nextItem != "+" || previousItem == "*" && nextItem != "-") {
-                mathArray[i] = "+";
-            }
-
-            /* important that the if statement below is after previous if and else if statements.
-               The if statement below cleans up the plus signs */
-            if (currentItem == "+" && previousItem == "+") {
-                mathArray[i] = "+";
-                mathArray[i-1] = "";
-            }
+        else if ( previousItem == "-" && currentItem == "+" ) {
+            mathArray[previousIndex] = "";
+            mathArray[currentIndex] = "-";
         }
-    }
-    /* trim one more time */
-    mathArray = mathArray.filter( (currentItem, currentIndex) => { 
-        if ( currentItem == " " ) {
-            return false;
+        else if ( previousItem == "/" && !(isNaN(+currentItem)) || previousItem == "*" && !(isNaN(+currentItem)) ) {
+            mathArray.splice(currentIndex, 0, "+")
         }
-        else {
-            return true;
-        }
-    } );
+    });
+    mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
     return mathArray.join("");
+}
+
+let filterIntoArrays = function ( someArray ) {
+    let additionAndSubtractionArray = [];
+    let multiplicationAndDivisionArray = [];
+    let currentArray = "";
+    let currentNumberString = "";
+
+    /* example string "+1+3+4/+3/*+3+3/+3+4"*/
+    someArray.forEach( (currentItem, currentIndex, mathArray) => {
+        let previousItem = mathArray[currentIndex-1];
+        
+    });
 }
