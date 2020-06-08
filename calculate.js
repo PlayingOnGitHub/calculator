@@ -45,8 +45,6 @@ const reduceSigns = function( mathString ) {
     mathArray.forEach( (currentItem, currentIndex, itemArray) => {
         let previousItem = itemArray[currentIndex-1];
         let previousIndex = currentIndex - 1;
-        console.log( "Previous Item: " + mathArray[previousIndex] );
-        console.log( "Current Item: " + mathArray[currentIndex] );
         if ( previousItem == "-" && currentItem == "-" ) {
             mathArray[previousIndex] = "";
             mathArray[currentIndex] = "+";
@@ -72,14 +70,132 @@ const reduceSigns = function( mathString ) {
 }
 
 let filterIntoArrays = function ( someArray ) {
-    let additionAndSubtractionArray = [];
+    let additionArray = [];
+    let subtractionArray = [];
     let multiplicationAndDivisionArray = [];
     let currentArray = "";
-    let currentNumberString = "";
+    let currentNumber = "";
 
     /* example string "+1+3+4/+3/*+3+3/+3+4"*/
-    someArray.forEach( (currentItem, currentIndex, mathArray) => {
-        let previousItem = mathArray[currentIndex-1];
-        
+    someArray.forEach( (currentItem, currentIndex) => {
+        let previousItem = someArray[currentIndex-1];
+        if ( currentItem == "+" ) {
+            if ( currentArray == "" ) {
+                currentArray = "additionArray";
+                currentNumber = "+";
+            }
+            else if ( currentArray == "additionArray" ) {
+                currentArray = "additionArray";
+                additionArray.push( currentNumber );
+                currentNumber = "+";
+            }
+            else if ( currentArray == "subtractionArray" ) {
+                currentArray = "additionArray";
+                subtractionArray.push( currentNumber );
+                currentNumber = "+";
+            }
+            else if ( currentArray == "multiplicationAndDivisionArray" ) { /* if previous sign found was "*" */
+                if ( !(isNaN(+previousItem)) ) { /* and the previous item was a number? */
+                    multiplicationAndDivisionArray.push( currentNumber );
+                    multiplicationAndDivisionArray.push( "," ); /* this seperates grouping */
+                    currentArray = "additionArray"; /* reset array type for now */
+                    currentNumber = "+"
+                }
+                else {
+                    currentNumber += "+";
+                }
+                /*else if ( previousItem == "*" || previousItem == "/" ) {
+                    multiplicationAndDivisionArray.push( currentNumber );
+                    currentArray = "multiplicationAndDivisionArray";
+                    currentNumber = "+"
+                }*/
+            }
+        }
+        else if ( currentItem == "-" ) {
+            if ( currentArray == "" ) {
+                currentArray = "subtractionArray";
+                currentNumber = "-";
+            }
+            else if ( currentArray == "subtractionArray" ) {
+                currentArray = "subtractionArray";
+                subtractionArray.push( currentNumber );
+                currentNumber = "-";
+            }
+            else if ( currentArray == "additionArray" ) {
+                currentArray = "subtractionArray";
+                additionArray.push( currentNumber );
+                currentNumber = "-";
+            }
+            else if ( currentArray == "multiplicationAndDivisionArray" ) { /* if previous sign found was "*" */
+                if ( !(isNaN(+previousItem)) ) { /* and the previous item was a number? */
+                    multiplicationAndDivisionArray.push( currentNumber );
+                    multiplicationAndDivisionArray.push( "," ); /* this seperates grouping */
+                    currentArray = "subtractionArray"; /* reset array type for now */
+                    currentNumber = "-"
+                }
+                else {
+                    currentNumber += "-";
+                }
+                /*else if ( previousItem == "*" || previousItem == "/" ) {
+                    multiplicationAndDivisionArray.push( currentNumber );
+                    currentArray = "multiplicationAndDivisionArray";
+                    currentNumber = "-"
+                }*/
+            }
+        }
+        else if ( currentItem == "*" ) {
+            if ( currentArray == "subtractionArray" ) {
+                currentArray = "multiplicationAndDivisionArray";
+                currentNumber += "*";
+            }
+            else if ( currentArray == "additionArray" ) {
+                currentArray = "multiplicationAndDivisionArray";
+                currentNumber += "*";
+            }
+            else if ( currentArray == "multiplicationAndDivisionArray" ) {
+                if ( !(isNaN(+previousItem)) ) {
+                    /* example string: "+3*+3*+3+3".     Look at the "*+3*+3+3" part of it. */
+                    currentArray = "multiplicationAndDivisionArray";
+                    currentNumber += ""+currentItem;
+                }
+            }
+        }
+        else if ( currentItem == "/" ) {
+            if ( currentArray == "subtractionArray" ) {
+                currentArray = "multiplicationAndDivisionArray";
+                currentNumber += "/";
+            }
+            else if ( currentArray == "additionArray" ) {
+                currentArray = "multiplicationAndDivisionArray";
+                currentNumber += "/";
+            }
+            else if ( currentArray == "multiplicationAndDivisionArray" ) {
+                if ( !(isNaN(+previousItem)) ) {
+                    /* example string: "+3*+3*+3+3".     Look at the "*+3*+3+3" part of it. */
+                    currentArray = "multiplicationAndDivisionArray";
+                    currentNumber += ""+currentItem;
+                }
+            }
+        }
+        else {
+            currentNumber += currentItem;
+            if ( currentIndex == someArray.length - 1 ) {
+                if ( currentArray == "subtractionArray" ) {
+                    subtractionArray.push( currentNumber );
+                }
+                else if ( currentArray == "additionArray" ) {
+                    additionArray.push( currentNumber );
+                }
+                else if ( currentArray == "multiplicationAndDivisionArray" ) {
+                    multiplicationAndDivisionArray.push( currentNumber );
+                }
+            }
+        }
     });
+    console.log("Addition Array: " + additionArray );
+    console.table( additionArray );
+    console.log("Subtraction Array: ");
+    console.table( subtractionArray );
+    console.log("Multiplication and division array: ");
+    console.table( multiplicationAndDivisionArray );
 }
