@@ -38,8 +38,11 @@ It took me awhile but I got my functions to work pretty well!
 -------------------------------------------------------------------------------
 
 I got calculateMultiplicationAndDivisionArray( testArray ) to work! 
-This takes a multiplication/division string and returns a solution to the string.
+-> This takes a multiplication/division string and returns a solution to the string.
 
 -------------------------------------------------------------------------------
 
+Updated reduceSigns( mathString ).
+-> The function now adds a "+" to the start of the string if the first number has no preceding "+" or "-". This is for consistency.
 
+-------------------------------------------------------------------------------

@@ -45,24 +45,29 @@ const reduceSigns = function( mathString ) {
     mathArray.forEach( (currentItem, currentIndex, itemArray) => {
         let previousItem = itemArray[currentIndex-1];
         let previousIndex = currentIndex - 1;
-        if ( previousItem == "-" && currentItem == "-" ) {
-            mathArray[previousIndex] = "";
-            mathArray[currentIndex] = "+";
-        }
-        else if ( previousItem == "+" && currentItem == "-" ) {
-            mathArray[previousIndex] = "";
-            mathArray[currentIndex] = "-";
-        }
-        else if ( previousItem == "+" && currentItem == "+" ) {
-            mathArray[previousIndex] = "";
-            mathArray[currentIndex] = "+";
-        }
-        else if ( previousItem == "-" && currentItem == "+" ) {
-            mathArray[previousIndex] = "";
-            mathArray[currentIndex] = "-";
-        }
-        else if ( previousItem == "/" && !(isNaN(+currentItem)) || previousItem == "*" && !(isNaN(+currentItem)) ) {
+        if ( currentIndex == 0 && currentItem != "-" || currentIndex == 0 && currentItem != "+" ) {
             mathArray.splice(currentIndex, 0, "+")
+        }
+        else {
+            if ( previousItem == "-" && currentItem == "-" ) {
+                mathArray[previousIndex] = "";
+                mathArray[currentIndex] = "+";
+            }
+            else if ( previousItem == "+" && currentItem == "-" ) {
+                mathArray[previousIndex] = "";
+                mathArray[currentIndex] = "-";
+            }
+            else if ( previousItem == "+" && currentItem == "+" ) {
+                mathArray[previousIndex] = "";
+                mathArray[currentIndex] = "+";
+            }
+            else if ( previousItem == "-" && currentItem == "+" ) {
+                mathArray[previousIndex] = "";
+                mathArray[currentIndex] = "-";
+            }
+            else if ( previousItem == "/" && !(isNaN(+currentItem)) || previousItem == "*" && !(isNaN(+currentItem)) ) {
+                mathArray.splice(currentIndex, 0, "+")
+            }
         }
     });
     mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
