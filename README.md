@@ -36,3 +36,10 @@ filterIntoArrays( array ) now works!
 It took me awhile but I got my functions to work pretty well!
 
 -------------------------------------------------------------------------------
+
+I got calculateMultiplicationAndDivisionArray( testArray ) to work! 
+This takes a multiplication/division string and returns a solution to the string.
+
+-------------------------------------------------------------------------------
+
+

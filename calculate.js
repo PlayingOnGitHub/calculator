@@ -69,7 +69,7 @@ const reduceSigns = function( mathString ) {
     return mathArray.join("");
 }
 
-let filterIntoArrays = function ( someArray ) {
+const filterIntoArrays = function ( someArray ) {
     let additionArray = [];
     let subtractionArray = [];
     let multiplicationAndDivisionArray = [];
@@ -192,10 +192,75 @@ let filterIntoArrays = function ( someArray ) {
             }
         }
     });
-    console.log("Addition Array: " + additionArray );
-    console.table( additionArray );
-    console.log("Subtraction Array: ");
-    console.table( subtractionArray );
-    console.log("Multiplication and division array: ");
-    console.table( multiplicationAndDivisionArray );
+    return [additionArray, subtractionArray, multiplicationAndDivisionArray];
 }
+
+const calculateMultiplicationAndDivisionArray = function( testArray ) {
+    let item1accumulator = "";
+    let currentNumber = "";
+    let currentArray = "division";
+    testArray.forEach( (item, index) => {
+        let previousItem = testArray[index-1];
+        let nextItem = testArray[index+1];
+        let previousPreviousItem = testArray[index-2];
+
+        if ( index == 0 ) { /* beginning behavior */
+            currentNumber = item;
+        }
+        else if ( index == testArray.length-1 ) { /* end behavior */
+            currentNumber += item;
+            if ( currentArray == "division" && currentNumber.length > 0 ) {
+                console.log( item1accumulator + "/" + currentNumber );
+                item1accumulator /= +currentNumber;
+            }
+            else if ( currentArray == "multiplication" && currentNumber.length > 0 ) {
+                console.log( item1accumulator + "*" + currentNumber );
+                item1accumulator *= +currentNumber;
+            }
+        }
+        else { /* middle behavior */
+            if ( !(isNaN(+item)) ) {
+                currentNumber += item;
+            }
+            else {
+                if (item == "/") {
+                    if ( item1accumulator == "" || item1accumulator == undefined || !item1accumulator ) {
+                        item1accumulator = +currentNumber;
+                    }
+                    else {
+                        if ( currentArray == "division" && currentNumber.length > 0 ) {
+                            console.log( item1accumulator + "/" + currentNumber + "=" + item1accumulator/+currentNumber );
+                            item1accumulator /= +currentNumber;
+                        }
+                        else if ( currentArray == "multiplication" && currentNumber.length > 0 ) {
+                            console.log( item1accumulator + "*" + currentNumber + "=" + item1accumulator*+currentNumber );
+                            item1accumulator *= +currentNumber;
+                        }
+                    }
+                    currentArray = "division";
+                }
+                else if (item == "*") {
+                    if ( item1accumulator == "" || item1accumulator == undefined || !item1accumulator ) {
+                        item1accumulator = +currentNumber;
+                    }
+                    else {
+                        if ( currentArray == "division" && currentNumber.length > 0 ) {
+                            console.log( item1accumulator + "/" + currentNumber + "=" + item1accumulator/+currentNumber );
+                            item1accumulator /= +currentNumber;
+                        }
+                        else if ( currentArray == "multiplication" && currentNumber.length > 0 ) {
+                            console.log( item1accumulator + "*" + currentNumber + "=" + item1accumulator*+currentNumber );
+                            item1accumulator *= +currentNumber;
+                        }
+                    }
+                    currentArray = "multiplication";
+                }
+                else if (item == "+" || item == "-") {
+                    currentNumber = item;
+                }
+            }
+        }
+    });
+    return item1accumulator;
+}
+
