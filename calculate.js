@@ -39,6 +39,19 @@ const checkInput = function( userInputString ) {
     })
 }
 
+const filterZeroes = function( userInput ) {
+    let userInputArray = userInput.split("");
+    let regexArray = [...userInput.matchAll( /[\+\-][0]{1,}[\d]/g )];
+    let numberOfDeletedItems = 0;
+    regexArray.forEach( (item, index) => {
+        let startOfZeroes = regexArray[index].index+1-numberOfDeletedItems;
+        let endOfZeroes  = regexArray[index][0].length-2;
+        numberOfDeletedItems += endOfZeroes;
+        userInputArray.splice(startOfZeroes, endOfZeroes ); /* deletes zeroes */
+    });
+    return userInputArray.join("");
+}
+
 const reduceSigns = function( mathString ) {
     let mathArray = mathString.split("");
     mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
@@ -78,7 +91,7 @@ const reduceSigns = function( mathString ) {
         currentIndex++;
     }
     mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
-    return mathArray.join("");
+    return filterZeroes( mathArray.join("") );
 }
 
 const filterIntoArrays = function ( someArray ) {

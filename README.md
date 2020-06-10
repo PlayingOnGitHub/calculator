@@ -71,3 +71,7 @@ Added "In Soviet Union, zero dividez by yOU!" if user trys to divide by zero. Do
 
 -------------------------------------------------------------------------------
 
+Next goal is to filter out extra zeroes preceeding a number. Example: 00000000047 should equal 47.
++ Added filterZeroes( userInput );
+
+-------------------------------------------------------------------------------
