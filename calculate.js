@@ -211,9 +211,12 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
     let item1accumulator = "";
     let currentNumber = "";
     let currentArray = "division";
+    let divideByZero = false;
+    
     testArray.forEach( (item, index) => {
         let previousItem = testArray[index-1];
         let nextItem = testArray[index+1];
+        let nextNextItem = testArray[index+2];
         let previousPreviousItem = testArray[index-2];
 
         if ( index == 0 ) { /* beginning behavior */
@@ -234,6 +237,9 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
             }
             else {
                 if (item == "/") {
+                    if ( nextNextItem == "0" ) {
+                        divideByZero = true;
+                    }
                     if ( item1accumulator == "" || item1accumulator == undefined || !item1accumulator ) {
                         item1accumulator = +currentNumber;
                     }
@@ -267,18 +273,30 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
             }
         }
     });
+    if (divideByZero) {
+        return "In Soviet Union, zero dividez by yOU!";
+    }
     return item1accumulator;
 }
 
 const getMultiplicationAndDivisionArrayTotal = function( multiplicationAndDivisionArray ) {
     let multiplicationAndDivisionArrayParts = multiplicationAndDivisionArray.join("").split(",");
+    let breakOnZero = false;
     let multiplicationAndDivisionTotal = multiplicationAndDivisionArrayParts.reduce( ( accumulator, item ) => {
         let currentArray = item.split("");
+        if ( calculateMultiplicationAndDivisionArray( currentArray ) == "In Soviet Union, zero dividez by yOU!" ) {
+            breakOnZero = true;
+        }
         if ( item != "," ) {
             accumulator += +calculateMultiplicationAndDivisionArray( currentArray );
         }
         return accumulator;
     }, 0);
+
+    if (breakOnZero) {
+        return "In Soviet Union, zero dividez by yOU!";
+    }
+
     return multiplicationAndDivisionTotal;
 }
 
@@ -297,6 +315,11 @@ const getSolution = function( userInput ) {
     let mathArrays = filterIntoArrays( mathString.split("") );
     let additionSubtractionTotal = getAdditionAndSubtractionArrayTotal( mathArrays[0], mathArrays[1] );
     let multiplicationDivisionTotal = getMultiplicationAndDivisionArrayTotal( mathArrays[2] );
+    /* snarky divide by zero remark */
+    if ( multiplicationDivisionTotal == "In Soviet Union, zero dividez by yOU!" ) {
+        return "In Soviet Union, zero dividez by yOU!";
+    }
     let solution = +additionSubtractionTotal + +multiplicationDivisionTotal;
     return +solution;
 }
+

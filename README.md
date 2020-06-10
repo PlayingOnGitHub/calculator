@@ -63,4 +63,11 @@ Added multiplicationAndDivisionArrayTotal( multiplicationAndDivisionArray )
 
 -------------------------------------------------------------------------------
 
-10+10+20+30/30-30/3*3 does not solve properly. Find out why.
+Patched reduceSigns bug.
+
+-------------------------------------------------------------------------------
+
+Added "In Soviet Union, zero dividez by yOU!" if user trys to divide by zero. Don't do it, Man.
+
+-------------------------------------------------------------------------------
+
