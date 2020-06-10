@@ -46,3 +46,19 @@ Updated reduceSigns( mathString ).
 -> The function now adds a "+" to the start of the string if the first number has no preceding "+" or "-". This is for consistency.
 
 -------------------------------------------------------------------------------
+
+Added multiplicationAndDivisionArrayTotal( multiplicationAndDivisionArray )
+-> This function goes through multiplication/division arrays and calculates those arrays using the "calculateMultiplicationAndDivisionArray( testAray )" function.
+
+-------------------------------------------------------------------------------
+
++ Changed name of MultiplicationAndDivisionArrayTotal to getMultiplicationAndDivisionArrayTotal.
+     -> Also made it to where the function will not loop over "," in array.
+
++ Added function getAdditionAndSubtractionArrayTotal( additionArray, subtractionArray ).
+     -> This function adds everything in additionArray and subtractionArray and returns the total value.
+
++ Added function getSolution( mathString ).
+     -> This function puts everything together by solving a basic mathematical string.
+
+-------------------------------------------------------------------------------

@@ -215,11 +215,9 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
         else if ( index == testArray.length-1 ) { /* end behavior */
             currentNumber += item;
             if ( currentArray == "division" && currentNumber.length > 0 ) {
-                console.log( item1accumulator + "/" + currentNumber );
                 item1accumulator /= +currentNumber;
             }
             else if ( currentArray == "multiplication" && currentNumber.length > 0 ) {
-                console.log( item1accumulator + "*" + currentNumber );
                 item1accumulator *= +currentNumber;
             }
         }
@@ -234,11 +232,9 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
                     }
                     else {
                         if ( currentArray == "division" && currentNumber.length > 0 ) {
-                            console.log( item1accumulator + "/" + currentNumber + "=" + item1accumulator/+currentNumber );
                             item1accumulator /= +currentNumber;
                         }
                         else if ( currentArray == "multiplication" && currentNumber.length > 0 ) {
-                            console.log( item1accumulator + "*" + currentNumber + "=" + item1accumulator*+currentNumber );
                             item1accumulator *= +currentNumber;
                         }
                     }
@@ -250,11 +246,9 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
                     }
                     else {
                         if ( currentArray == "division" && currentNumber.length > 0 ) {
-                            console.log( item1accumulator + "/" + currentNumber + "=" + item1accumulator/+currentNumber );
                             item1accumulator /= +currentNumber;
                         }
                         else if ( currentArray == "multiplication" && currentNumber.length > 0 ) {
-                            console.log( item1accumulator + "*" + currentNumber + "=" + item1accumulator*+currentNumber );
                             item1accumulator *= +currentNumber;
                         }
                     }
@@ -269,3 +263,33 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
     return item1accumulator;
 }
 
+const getMultiplicationAndDivisionArrayTotal = function( multiplicationAndDivisionArray ) {
+    let multiplicationAndDivisionArrayParts = multiplicationAndDivisionArray.join("").split(",");
+    let multiplicationAndDivisionTotal = multiplicationAndDivisionArrayParts.reduce( ( accumulator, item ) => {
+        let currentArray = item.split("");
+        if ( item != "," ) {
+            accumulator += +calculateMultiplicationAndDivisionArray( currentArray );
+        }
+        return accumulator;
+    }, 0);
+    return multiplicationAndDivisionTotal;
+}
+
+const getAdditionAndSubtractionArrayTotal = function( additionArray, subtractionArray ) {
+    let additionAndSubtractionArray = additionArray.concat( subtractionArray );
+    return +additionAndSubtractionArray.reduce( (accumulator, item) =>  accumulator += +item , 0 );
+}
+
+const getSolution = function( userInput ) {
+    let validOrInvalidInput = checkInput( userInput );
+    if ( !validOrInvalidInput ) {
+        return "Please enter #'s & basic operations only";
+    }
+    let mathString = reduceSigns( userInput )
+    mathString = reduceSigns( mathString );
+    let mathArrays = filterIntoArrays( mathString.split("") );
+    let additionSubtractionTotal = getAdditionAndSubtractionArrayTotal( mathArrays[0], mathArrays[1] );
+    let multiplicationDivisionTotal = getMultiplicationAndDivisionArrayTotal( mathArrays[2] );
+    let solution = +additionSubtractionTotal + +multiplicationDivisionTotal;
+    return +solution;
+}
