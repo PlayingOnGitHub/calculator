@@ -42,11 +42,16 @@ const checkInput = function( userInputString ) {
 const reduceSigns = function( mathString ) {
     let mathArray = mathString.split("");
     mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
-    mathArray.forEach( (currentItem, currentIndex, itemArray) => {
+    let currentIndex = 0;
+    while (currentIndex <= mathArray.length - 1 ) {
+        let itemArray = mathArray;
+        let currentItem = itemArray[currentIndex];
         let previousItem = itemArray[currentIndex-1];
         let previousIndex = currentIndex - 1;
-        if ( currentIndex == 0 && currentItem != "-" || currentIndex == 0 && currentItem != "+" ) {
-            mathArray.splice(currentIndex, 0, "+")
+
+        if ( currentIndex == 0 && currentItem != "-" && currentItem != "+" ) {
+            mathArray.splice(currentIndex, 0, "+");
+            currentIndex++;
         }
         else {
             if ( previousItem == "-" && currentItem == "-" ) {
@@ -66,10 +71,12 @@ const reduceSigns = function( mathString ) {
                 mathArray[currentIndex] = "-";
             }
             else if ( previousItem == "/" && !(isNaN(+currentItem)) || previousItem == "*" && !(isNaN(+currentItem)) ) {
-                mathArray.splice(currentIndex, 0, "+")
+                mathArray.splice(currentIndex, 0, "+");
+                currentIndex++;
             }
         }
-    });
+        currentIndex++;
+    }
     mathArray = mathArray.filter( (x) => (x==" ") ? false : true );
     return mathArray.join("");
 }

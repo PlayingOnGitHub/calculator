@@ -62,3 +62,5 @@ Added multiplicationAndDivisionArrayTotal( multiplicationAndDivisionArray )
      -> This function puts everything together by solving a basic mathematical string.
 
 -------------------------------------------------------------------------------
+
+10+10+20+30/30-30/3*3 does not solve properly. Find out why.
