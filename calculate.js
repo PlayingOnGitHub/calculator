@@ -23,20 +23,32 @@ const operate = function ( a, operator, b ) {
     }
 }
 
-const checkInput = function( userInputString ) {
+let checkInput = function( userInputString ) {
     let userInputArray = userInputString.split("");
 
     /* the below statement trims the array */
     userInputArray = userInputArray.filter( (x) => (x==" ") ? false : true )
+    let trueOrFalse = true;
 
-    return userInputArray.every( (currentValue, currentIndex) => { 
-        if ( currentValue != "/" && currentValue != "*" && currentValue != "+" && currentValue != "-" && isNaN(+currentValue) ) {
-            return false;
-        }
-        else {
-            return true;
+    userInputArray.forEach( (currentValue, currentIndex) => { 
+        if ( currentValue != "/" && currentValue != "*" && currentValue != "+" && currentValue != "-" && isNaN(+currentValue) && currentValue != "." ) {
+            trueOrFalse = false;
         }
     })
+
+    let multiplePeriodsRegex = /[\.][\d]*[\.]/g;
+    userInputString = userInputArray.join("");
+    let multiplePeriodsArray = userInputString.match( multiplePeriodsRegex );
+    if ( multiplePeriodsArray != null  ) {
+        trueOrFalse = false;
+    }
+
+    if ( userInputString.length <= 0 ) {
+        trueOrFalse = false;
+    }
+
+    return trueOrFalse;
+
 }
 
 const filterZeroes = function( userInput ) {
