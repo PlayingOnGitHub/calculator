@@ -78,3 +78,6 @@ Next goal is to filter out extra zeroes preceeding a number. Example: 0000000004
 
 Function checkInput( userString ) checks to see if multiple decimal points were put into a number. This acts as an additional filtering step.
 Function checkInput( userString ) now makes sure the user does not enter an empty string.
+Function checkInput( userString ) now checks for an empty decimal point.
+
+-------------------------------------------------------------------------------

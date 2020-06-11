@@ -30,8 +30,12 @@ let checkInput = function( userInputString ) {
     userInputArray = userInputArray.filter( (x) => (x==" ") ? false : true )
     let trueOrFalse = true;
 
-    userInputArray.forEach( (currentValue, currentIndex) => { 
+    userInputArray.forEach( (currentValue, currentIndex) => {
+        let nextValue = userInputArray[currentIndex+1]
         if ( currentValue != "/" && currentValue != "*" && currentValue != "+" && currentValue != "-" && isNaN(+currentValue) && currentValue != "." ) {
+            trueOrFalse = false;
+        }
+        if ( currentValue == "." && isNaN( +nextValue ) || currentValue == "." && nextValue == undefined || currentValue == "." && nextValue == null ) {
             trueOrFalse = false;
         }
     })
@@ -44,7 +48,7 @@ let checkInput = function( userInputString ) {
     }
 
     if ( userInputString.length <= 0 ) {
-        trueOrFalse = false;
+        trueOrFalse = 0;
     }
 
     return trueOrFalse;
@@ -332,8 +336,11 @@ const getAdditionAndSubtractionArrayTotal = function( additionArray, subtraction
 
 const getSolution = function( userInput ) {
     let validOrInvalidInput = checkInput( userInput );
-    if ( !validOrInvalidInput ) {
+    if ( !validOrInvalidInput && validOrInvalidInput !== 0 ) {
         return "Please enter #'s & basic operations only";
+    }
+    else if ( validOrInvalidInput == 0 ) {
+        return 0;
     }
     let mathString = reduceSigns( userInput )
     mathString = reduceSigns( mathString );
