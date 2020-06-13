@@ -38,13 +38,16 @@ let checkInput = function( userInputString ) {
         if ( currentValue == "." && isNaN( +nextValue ) || currentValue == "." && nextValue == undefined || currentValue == "." && nextValue == null ) {
             trueOrFalse = false;
         }
-        if ( currentValue == "*" && isNaN( +nextValue ) && nextValue != "+" && nextValue != "-" || currentValue == "*" && nextValue == undefined || currentValue == "*" && nextValue == null ) {
+        if ( currentValue == "*" && isNaN( +nextValue ) && nextValue != "." && nextValue != "+" && nextValue != "-" || currentValue == "*" && nextValue == undefined || currentValue == "*" && nextValue == null ) {
             trueOrFalse = false;
         }
-        if ( currentValue == "/" && isNaN( +nextValue ) && nextValue != "+" && nextValue != "-" || currentValue == "/" && nextValue == undefined || currentValue == "/" && nextValue == null ) {
+        if ( currentValue == "/" && isNaN( +nextValue ) && nextValue != "." && nextValue != "+" && nextValue != "-" || currentValue == "/" && nextValue == undefined || currentValue == "/" && nextValue == null ) {
             trueOrFalse = false;
         }
         if ( currentValue == "+" && isNaN( +nextValue ) && nextValue != "-" && nextValue != "+" || currentValue == "-" && isNaN( +nextValue ) && nextValue != "+" && nextValue != "-" ) {
+            trueOrFalse = false;
+        }
+        if ( currentIndex == 0 && currentValue == "/" || currentIndex == 0 && currentValue == "*" ) {
             trueOrFalse = false;
         }
     })
@@ -365,10 +368,96 @@ const getSolution = function( userInput ) {
     return +solution;
 }
 
-function logNumber() {
+function logNumber(e) {
     let id = this.id;
     let text = document.getElementById("userInput");
-    text.value += id;
+    let textArray = text.value.split("");
+    let textValue = text.value;
+    let previousItem = textValue[textValue.length-1]
+    if ( previousItem == "*" && id == "/" ) {
+        textArray[textArray.length-1] = "/";
+        let joinedInput = textArray.join("");
+        text.value = joinedInput;
+    }
+    else if ( previousItem == "/" && id == "*") {
+        textArray[textArray.length-1] = "*";
+        let joinedInput = textArray.join("");
+        text.value = joinedInput;
+    }
+    else if ( previousItem == "+" && id == "/" || previousItem == "-" && id == "/" ) {
+        textArray[textArray.length-1] = "/";
+        let joinedInput = textArray.join("");
+        text.value = joinedInput;
+    }
+    else if ( previousItem == "+" && id == "*" || previousItem == "-" && id == "*" ) {
+        textArray[textArray.length-1] = "*";
+        let joinedInput = textArray.join("");
+        text.value = joinedInput;
+    }
+    else if ( previousItem == "." && id == "." || previousItem == "/" && id == "/" || previousItem == "*" && id == "*" ) {
+        /* just do nothing */
+    }
+    else if ( text.value.length == 1 && +text.value == 0 ) {
+        text.value = id;
+    }
+    else {
+        text.value += id;
+    }
+}
+
+
+/* This function replaces * with / if user is switching back and fourth between * and / signs. I do the same the same with periods by using preventDefault. **
+****** Also stops user from multiplying or dividing at start of string etc   ********************/
+function checkKey(e) {
+    let key = e.keyCode;
+    let currentInput = document.getElementById("userInput").value;
+    let lastCharacterUsed = currentInput[currentInput.length-1];
+    let lastCharacterKeyValue = "";
+    let userInputArray = currentInput.split("");
+
+    if ( lastCharacterUsed != undefined && lastCharacterUsed != null ) {
+        lastCharacterKeyValue = lastCharacterUsed.charCodeAt(0);
+    }
+    if ( +key == 191 && +lastCharacterKeyValue == 42 ) {
+        userInputArray[userInputArray.length-1] = "/";
+        let newInput = userInputArray.join("");
+        e.preventDefault();
+        document.getElementById("userInput").value = newInput;
+    }
+    if ( +key == 56 && +lastCharacterKeyValue == 47 ) {
+        userInputArray[userInputArray.length-1] = "*";
+        let newInput = userInputArray.join("");
+        e.preventDefault();
+        document.getElementById("userInput").value = newInput;
+    }
+    if ( +key == 56 && +lastCharacterKeyValue == 43 || +key == 56 && +lastCharacterKeyValue == 45 ) {
+        userInputArray[userInputArray.length-1] = "*";
+        let newInput = userInputArray.join("");
+        e.preventDefault();
+        document.getElementById("userInput").value = newInput;
+    }
+    if ( +key == 191 && +lastCharacterKeyValue == 45 || +key == 191 && +lastCharacterKeyValue == 43 ) {
+        userInputArray[userInputArray.length-1] = "/";
+        let newInput = userInputArray.join("");
+        e.preventDefault();
+        document.getElementById("userInput").value = newInput;
+    }
+    if ( +key == 191 && currentInput == "" || +key == 56 && currentInput == "" ) {
+        e.preventDefault();
+        document.getElementById("userInput").value = "0";
+    }
+    if ( +key == 191 && +currentInput == 0 || +key == 56 && +currentInput == 0 || +key == 190 && +lastCharacterKeyValue == 46 || +key == 191 && +lastCharacterKeyValue == 47 || +key == 56 && +lastCharacterKeyValue == 42 ) {
+        e.preventDefault();
+    }
+
+    if ( +key == 13 ) {
+        document.getElementById("userInput").value = getSolution(currentInput);
+    }
+
+    if ( +key == 27 ) {
+        document.getElementById("userInput").value = "";
+    }
+
 }
 
 function run() {
@@ -382,6 +471,7 @@ function run() {
     let eight = document.getElementById("8");
     let nine = document.getElementById("9");
     let zero = document.getElementById("0");
+    let period = document.getElementById(".");
     let plus = document.getElementById("+");
     let minus = document.getElementById("-");
     let divide = document.getElementById("/");
@@ -399,15 +489,20 @@ function run() {
     eight.addEventListener("click", logNumber, true);
     nine.addEventListener("click", logNumber, true);
     zero.addEventListener("click", logNumber, true);
+    period.addEventListener("click", logNumber, true);
     plus.addEventListener("click", logNumber, true);
     minus.addEventListener("click", logNumber, true);
     divide.addEventListener("click", logNumber, true);
     multiply.addEventListener("click", logNumber, true);
-    clear.addEventListener("click", () => { document.getElementById("userInput").value = ""; }, true);
+    clear.addEventListener("click", () => { document.getElementById("userInput").value = "0"; }, true);
     enter.addEventListener("click", () => {
         let userInput = document.getElementById("userInput").value;
         document.getElementById("userInput").value = getSolution(userInput);
     }, true);
+
+    let textbox = document.getElementById("userInput");
+    textbox.addEventListener("keydown", checkKey, true);
+    textbox.value = "0";
 
 }
 

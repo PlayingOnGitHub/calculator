@@ -90,3 +90,10 @@ Added run() which runs the entire project and makes the caclulator work.
 -------------------------------------------------------------------------------
 
 Patched checkInput( userString ). Function now looks for reoccuring "*"'s and "/"'s.
+
+-------------------------------------------------------------------------------
+
+Function checkKey( e ) was added. This filters out user input on the fly.
+Function logNumber( e ) was also updated to filter input on the fly.
+
+Made minor changes. The clear function now sets the starting value to zero.
