@@ -38,6 +38,15 @@ let checkInput = function( userInputString ) {
         if ( currentValue == "." && isNaN( +nextValue ) || currentValue == "." && nextValue == undefined || currentValue == "." && nextValue == null ) {
             trueOrFalse = false;
         }
+        if ( currentValue == "*" && isNaN( +nextValue ) && nextValue != "+" && nextValue != "-" || currentValue == "*" && nextValue == undefined || currentValue == "*" && nextValue == null ) {
+            trueOrFalse = false;
+        }
+        if ( currentValue == "/" && isNaN( +nextValue ) && nextValue != "+" && nextValue != "-" || currentValue == "/" && nextValue == undefined || currentValue == "/" && nextValue == null ) {
+            trueOrFalse = false;
+        }
+        if ( currentValue == "+" && isNaN( +nextValue ) && nextValue != "-" && nextValue != "+" || currentValue == "-" && isNaN( +nextValue ) && nextValue != "+" && nextValue != "-" ) {
+            trueOrFalse = false;
+        }
     })
 
     let multiplePeriodsRegex = /[\.][\d]*[\.]/g;
@@ -337,7 +346,7 @@ const getAdditionAndSubtractionArrayTotal = function( additionArray, subtraction
 const getSolution = function( userInput ) {
     let validOrInvalidInput = checkInput( userInput );
     if ( !validOrInvalidInput && validOrInvalidInput !== 0 ) {
-        return "Please enter #'s & basic operations only";
+        return "Invalid Entry";
     }
     else if ( validOrInvalidInput == 0 ) {
         return 0;
@@ -349,9 +358,57 @@ const getSolution = function( userInput ) {
     let multiplicationDivisionTotal = getMultiplicationAndDivisionArrayTotal( mathArrays[2] );
     /* snarky divide by zero remark */
     if ( multiplicationDivisionTotal == "In Soviet Union, zero dividez by yOU!" ) {
-        return "In Soviet Union, zero dividez by yOU!";
+        alert("In Soviet Union, zero dividez by yOU!")
+        return "";
     }
     let solution = +additionSubtractionTotal + +multiplicationDivisionTotal;
     return +solution;
 }
 
+function logNumber() {
+    let id = this.id;
+    let text = document.getElementById("userInput");
+    text.value += id;
+}
+
+function run() {
+    let one = document.getElementById("1");
+    let two = document.getElementById("2");
+    let three = document.getElementById("3");
+    let four = document.getElementById("4");
+    let five = document.getElementById("5");
+    let six = document.getElementById("6");
+    let seven = document.getElementById("7");
+    let eight = document.getElementById("8");
+    let nine = document.getElementById("9");
+    let zero = document.getElementById("0");
+    let plus = document.getElementById("+");
+    let minus = document.getElementById("-");
+    let divide = document.getElementById("/");
+    let multiply = document.getElementById("*");
+    let clear = document.getElementById("clear");
+    let enter = document.getElementById("enter");
+
+    one.addEventListener("click", logNumber, true);
+    two.addEventListener("click", logNumber, true);
+    three.addEventListener("click", logNumber, true);
+    four.addEventListener("click", logNumber, true);
+    five.addEventListener("click", logNumber, true);
+    six.addEventListener("click", logNumber, true);
+    seven.addEventListener("click", logNumber, true);
+    eight.addEventListener("click", logNumber, true);
+    nine.addEventListener("click", logNumber, true);
+    zero.addEventListener("click", logNumber, true);
+    plus.addEventListener("click", logNumber, true);
+    minus.addEventListener("click", logNumber, true);
+    divide.addEventListener("click", logNumber, true);
+    multiply.addEventListener("click", logNumber, true);
+    clear.addEventListener("click", () => { document.getElementById("userInput").value = ""; }, true);
+    enter.addEventListener("click", () => {
+        let userInput = document.getElementById("userInput").value;
+        document.getElementById("userInput").value = getSolution(userInput);
+    }, true);
+
+}
+
+run();

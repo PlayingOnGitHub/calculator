@@ -81,3 +81,12 @@ Function checkInput( userString ) now makes sure the user does not enter an empt
 Function checkInput( userString ) now checks for an empty decimal point.
 
 -------------------------------------------------------------------------------
+
+Had fun creating the styling for my calculator.
+
+Added logNumber() which is ran when a user selects a digit or operation on the calculator.
+Added run() which runs the entire project and makes the caclulator work.
+
+-------------------------------------------------------------------------------
+
+Patched checkInput( userString ). Function now looks for reoccuring "*"'s and "/"'s.
