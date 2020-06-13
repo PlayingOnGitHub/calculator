@@ -119,7 +119,6 @@ body {
 .cleartext {
     writing-mode: vertical-rl;
     text-orientation: upright;
-    letter-spacing: -9px;
     margin-top: 1px;
     font-size: 25px;
 }
