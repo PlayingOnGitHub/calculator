@@ -4,22 +4,22 @@ body {
 
 .calculator {
     margin: 10vw auto;
-    height: 338px;
-    width: 538px;
+    height: 424px;
+    width: 598px;
     background-image: url(matrix.jpg);
-    border-radius: 34px;
+    border-radius: 18px;
     position: relative;
     box-shadow: 0px 0px 9px 16px black;
 }
 
 .screen {
-    height: 100px;
-    width: 510px;
+    height: 132px;
+    width: 546px;
     background-color: #84ba86;
-    border-radius: 11px;
+    border-radius: 12px;
     position: absolute;
-    left: 13px;
-    top: 11px;
+    left: 17px;
+    top: 0px;
     border: 0px solid transparent;
     box-shadow: inset 0.3px 0.3px 4px 3px #000000;
     z-index: 1;
@@ -28,7 +28,7 @@ body {
 .input-box {
     font-family: 'Orbitron', sans-serif;
     background-color: transparent;
-    width: 95%;
+    width: 527px;
     height: 100%;
     outline: none;
     outline-style: none;
@@ -44,37 +44,36 @@ body {
 
 .grid-1 {
     position: absolute;
-    left: 16px;
-    top: 120px;
+    left: 0px;
+    top: 20px;
     width: 221px;
     height: 211px;
     z-index: 1;
     display: grid;
     grid-template-rows: 65px 65px 65px;
     grid-template-columns: 60px 60px 60px;
-    grid-gap: 8px 20px;
+    grid-gap: 10px 23px;
     z-index: 1;
 }
 
 .grid-2 {
-    width: 148px;
-    height: 212px;
+    width: 257px;
+    height: 205px;
     display: grid;
     z-index: 1;
     position: absolute;
     left: 266px;
-    top: 119px;
+    top: 20px;
     grid-template-areas:
         "plus minus clear"
         "divide multiply clear"
         "zero enter enter";
-    grid-gap: 8px 13px;
+    grid-gap: 10px 22px;
 }
 
 .panel {
     width: 65px;
     height: 60px;
-    background-color: black;
     outline-style: none;
     box-shadow: 0px 0px 0px 6px #000000;
     border-radius: 11px;
@@ -84,6 +83,8 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-top: 3px;
+    opacity: 0.93;
 }
 
 .panel:hover {
@@ -109,6 +110,8 @@ body {
     cursor: pointer;
     grid-row: 1/3;
     grid-column: 3/4;
+    margin-left: -8px;
+    opacity: 0.93;
 }
 
 .clear:hover {
@@ -140,6 +143,8 @@ body {
     font-size: 30px;
     font-weight: 500;
     cursor: pointer;
+    margin-top: 4px;
+    opacity: 0.93;
 }
 
 .enter:hover {
@@ -150,4 +155,20 @@ body {
 .entertext {
     margin-left: 9px;
     letter-spacing: 3px;
+}
+
+.inside-wrapper {
+    width: 579px;
+    height: 350px;
+    position: relative;
+    top: 24px;
+    left: 10px;
+}
+
+.grids-wrapper {
+    position: relative;
+    width: 539px;
+    height: 235px;
+    top: 131px;
+    left: 28px;
 }
