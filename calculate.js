@@ -384,12 +384,12 @@ function logNumber(e) {
         let joinedInput = textArray.join("");
         text.value = joinedInput;
     }
-    else if ( previousItem == "+" && id == "/" || previousItem == "-" && id == "/" ) {
+    else if ( previousItem == "+" && id == "/" && textValue != "+" || previousItem == "-" && id == "/" && textValue != "-" ) {
         textArray[textArray.length-1] = "/";
         let joinedInput = textArray.join("");
         text.value = joinedInput;
     }
-    else if ( previousItem == "+" && id == "*" || previousItem == "-" && id == "*" ) {
+    else if ( previousItem == "+" && id == "*" && textValue != "+" || previousItem == "-" && id == "*" && textValue != "-" ) {
         textArray[textArray.length-1] = "*";
         let joinedInput = textArray.join("");
         text.value = joinedInput;
@@ -397,7 +397,7 @@ function logNumber(e) {
     else if ( previousItem == "." && id == "." || previousItem == "/" && id == "/" || previousItem == "*" && id == "*" || id == "/" && textValue == "" || id == "*" && textValue == "" || textValue == "0" && id == "/" || textValue == "0" && id == "*" ) {
         /* just do nothing */
     }
-    else if ( text.value.length == 1 && +text.value == 0 && id != "/" && id != "*" ) {
+    else if ( text.value.length == 1 && +text.value == 0 && id != "/" && id != "*" && id != "+" && id != "-" ) {
         text.value = id;
     }
     else {
