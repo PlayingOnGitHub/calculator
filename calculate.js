@@ -504,6 +504,9 @@ function run() {
     textbox.addEventListener("keydown", checkKey, true);
     textbox.value = "0";
 
+    let screen = document.querySelector(".screen");
+    screen.addEventListener("click", () => { document.getElementById("userInput").focus(); }, true );
+
 }
 
 run();
