@@ -17,7 +17,7 @@ body {
     width: 546px;
     background-color: #84ba86;
     border-radius: 12px;
-    position: absolute;
+    position: relative;
     left: 17px;
     top: 0px;
     border: 0px solid transparent;
@@ -35,7 +35,9 @@ body {
     color: darkred;
     font-weight: 600;
     font-size: 64px;
-    padding-right: 14px;
+    position: absolute;
+    top: 0px;
+    right: 30px;
     text-align: right;
     overflow-x: hidden;
     text-decoration: none;
@@ -169,6 +171,6 @@ body {
     position: relative;
     width: 539px;
     height: 235px;
-    top: 131px;
+    top: 0px;
     left: 28px;
 }
