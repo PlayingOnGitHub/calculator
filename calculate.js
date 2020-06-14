@@ -115,6 +115,9 @@ const reduceSigns = function( mathString ) {
                 mathArray.splice(currentIndex, 0, "+");
                 currentIndex++;
             }
+            else if ( currentItem == "." && isNaN(+previousItem) && previousItem != "+" && previousItem != "-" ) {
+                mathArray.splice(currentIndex, 0, "+", "0");
+            }
             /*else if ( currentItem == "." && !(isNaN(+previousItem)) || currentItem )*/
         }
         currentIndex++;
@@ -273,9 +276,6 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
                 item1accumulator *= +currentNumber;
             }
         }
-        else if ( item == "." ) {
-            currentNumber += ".";
-        }
         else { /* middle behavior */
             if ( !(isNaN(+item)) ) {
                 currentNumber += item;
@@ -315,7 +315,7 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
                 else if (item == "+" || item == "-") {
                     currentNumber = item;
                 }
-                else if (item == "." && previousItem == "+" || item == "." && previousItem == "-") {
+                else if (item == ".") {
                     currentNumber += item;
                 }
             }
