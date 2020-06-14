@@ -115,6 +115,7 @@ const reduceSigns = function( mathString ) {
                 mathArray.splice(currentIndex, 0, "+");
                 currentIndex++;
             }
+            /*else if ( currentItem == "." && !(isNaN(+previousItem)) || currentItem )*/
         }
         currentIndex++;
     }
@@ -310,6 +311,9 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
                 }
                 else if (item == "+" || item == "-") {
                     currentNumber = item;
+                }
+                else if (item == "." && previousItem == "+" || item == "." && previousItem == "-") {
+                    currentNumber += item;
                 }
             }
         }
