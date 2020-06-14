@@ -97,3 +97,7 @@ Function checkKey( e ) was added. This filters out user input on the fly.
 Function logNumber( e ) was also updated to filter input on the fly.
 
 Made minor changes. The clear function now sets the starting value to zero.
+
+--------------------------------------------------------------------------------
+
+I see the potential for more features; although, I feel like I've learned plenty from this project, so I will be concluding with this final thought.
