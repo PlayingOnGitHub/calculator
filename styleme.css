@@ -24,7 +24,7 @@ body {
     box-shadow: inset 0.3px 0.3px 4px 3px #000000;
     z-index: 1;
     cursor: text;
-    overflow-x:hidden;
+    overflow:hidden;
 }
 
 .input-box {
@@ -41,7 +41,7 @@ body {
     top: 0px;
     right: 30px;
     text-align: right;
-    overflow-x: hidden;
+    overflow: hidden;
     text-decoration: none;
     border: transparent;
 }
