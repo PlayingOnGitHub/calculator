@@ -455,7 +455,7 @@ function checkKey(e) {
     }
 
     if ( +key == 27 ) {
-        document.getElementById("userInput").value = "";
+        document.getElementById("userInput").value = "0";
     }
 
 }
