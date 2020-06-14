@@ -273,6 +273,9 @@ const calculateMultiplicationAndDivisionArray = function( testArray ) {
                 item1accumulator *= +currentNumber;
             }
         }
+        else if ( item == "." ) {
+            currentNumber += ".";
+        }
         else { /* middle behavior */
             if ( !(isNaN(+item)) ) {
                 currentNumber += item;
@@ -350,6 +353,45 @@ const getAdditionAndSubtractionArrayTotal = function( additionArray, subtraction
     return +additionAndSubtractionArray.reduce( (accumulator, item) =>  accumulator += +item , 0 );
 }
 
+const roundToOneDecimalPoint = function( number ) {
+
+    let numberString = "" + number;
+    let numberArray = numberString.split( "." );
+
+    let wholeNumberPortion = +numberArray[0];
+    let decimalPortion = numberArray[1];
+
+    let hundredsPlace = 0;
+    let tensPlace = 0;
+
+    if ( typeof decimalPortion == "string" ) {
+        tensPlace = decimalPortion.charAt(0);
+        if ( decimalPortion.length > 0 ) {
+            hundredsPlace = decimalPortion.charAt(1);
+        }
+    }
+
+    if ( hundredsPlace >= 5 ) {
+        if ( tensPlace == 9 ) {
+            wholeNumberPortion++;
+            numberString = wholeNumberPortion;
+            return +numberString;
+        }
+        else {
+            tensPlace++;
+            numberString = numberArray[0].concat( "." + tensPlace );
+            numberString = +numberString;
+            return +numberString;
+        }
+    }
+    else {
+        numberString = "" + wholeNumberPortion + "." + tensPlace;
+        numberString = +numberString;
+        
+        return +numberString;
+    }
+}
+
 const getSolution = function( userInput ) {
     let validOrInvalidInput = checkInput( userInput );
     if ( !validOrInvalidInput && validOrInvalidInput !== 0 ) {
@@ -369,6 +411,7 @@ const getSolution = function( userInput ) {
         return "0";
     }
     let solution = +additionSubtractionTotal + +multiplicationDivisionTotal;
+    solution = roundToOneDecimalPoint(+solution);
     return +solution;
 }
 
