@@ -362,7 +362,7 @@ const getSolution = function( userInput ) {
     /* snarky divide by zero remark */
     if ( multiplicationDivisionTotal == "In Soviet Union, zero dividez by yOU!" ) {
         alert("In Soviet Union, zero dividez by yOU!")
-        return "";
+        return "0";
     }
     let solution = +additionSubtractionTotal + +multiplicationDivisionTotal;
     return +solution;
@@ -394,10 +394,10 @@ function logNumber(e) {
         let joinedInput = textArray.join("");
         text.value = joinedInput;
     }
-    else if ( previousItem == "." && id == "." || previousItem == "/" && id == "/" || previousItem == "*" && id == "*" ) {
+    else if ( previousItem == "." && id == "." || previousItem == "/" && id == "/" || previousItem == "*" && id == "*" || id == "/" && textValue == "" || id == "*" && textValue == "" || textValue == "0" && id == "/" || textValue == "0" && id == "*" ) {
         /* just do nothing */
     }
-    else if ( text.value.length == 1 && +text.value == 0 ) {
+    else if ( text.value.length == 1 && +text.value == 0 && id != "/" && id != "*" ) {
         text.value = id;
     }
     else {
