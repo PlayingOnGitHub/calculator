@@ -101,3 +101,7 @@ Made minor changes. The clear function now sets the starting value to zero.
 --------------------------------------------------------------------------------
 
 I see the potential for more features; although, I feel like I've learned plenty from this project, so I will be concluding with this final thought.
+
+--------------------------------------------------------------------------------
+
+Calculator now rounds to six places. That took much longer than expected and I'm very happy with the results!

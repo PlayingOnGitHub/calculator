@@ -353,42 +353,44 @@ const getAdditionAndSubtractionArrayTotal = function( additionArray, subtraction
     return +additionAndSubtractionArray.reduce( (accumulator, item) =>  accumulator += +item , 0 );
 }
 
-const roundToOneDecimalPoint = function( number ) {
-
-    let numberString = "" + number;
-    let numberArray = numberString.split( "." );
-
-    let wholeNumberPortion = +numberArray[0];
-    let decimalPortion = numberArray[1];
-
-    let hundredsPlace = 0;
-    let tensPlace = 0;
-
-    if ( typeof decimalPortion == "string" ) {
-        tensPlace = decimalPortion.charAt(0);
-        if ( decimalPortion.length > 0 ) {
-            hundredsPlace = decimalPortion.charAt(1);
-        }
-    }
-
-    if ( hundredsPlace >= 5 ) {
-        if ( tensPlace == 9 ) {
-            wholeNumberPortion++;
-            numberString = wholeNumberPortion;
-            return +numberString;
-        }
-        else {
-            tensPlace++;
-            numberString = numberArray[0].concat( "." + tensPlace );
-            numberString = +numberString;
-            return +numberString;
-        }
-    }
-    else {
-        numberString = "" + wholeNumberPortion + "." + tensPlace;
-        numberString = +numberString;
-        
+let roundNumber = function ( numberString ) {
+    let numberArray = numberString.split(".");
+    if ( numberArray[1] == undefined ) {
         return +numberString;
+    }
+    let wholePortion = numberArray[0];
+    let decimalPortion = numberArray[1].split("");
+    if ( decimalPortion.length <= 6 ) {
+        return +numberString;
+    }
+    decimalPortion = decimalPortion.filter( (x, currentIndex) => currentIndex <= 6 );
+    for ( let i = decimalPortion.length-1; i >= 0; i-- ) {
+        let rightDigit = +decimalPortion[i];
+        let leftDigit = +decimalPortion[i-1];
+        if ( rightDigit >= 5 && leftDigit != undefined && leftDigit < 9 ) {
+            leftDigit++;
+            decimalPortion[i-1] = leftDigit;
+            decimalPortion = decimalPortion.filter( (x, currentIndex) => (currentIndex <= i-1 ) );
+            let newNumber = wholePortion + "." + decimalPortion.join("");
+            newNumber = +newNumber;
+            return newNumber;
+        }
+        else if ( isNaN(leftDigit) && rightDigit >= 5 ) {
+            if (wholePortion[0] == "-") {
+                wholePortion = +wholePortion;
+                --wholePortion;
+            }
+            else if (wholePortion[0] == "+" || !(isNaN(+wholePortion[0])) ) {
+                wholePortion = +wholePortion;
+                ++wholePortion;
+            }
+            return wholePortion;
+        }
+        else if ( rightDigit < 5 ) {
+            decimalPortion = decimalPortion.filter( (x, currentIndex) => (currentIndex <= i-1) );
+            let newNumber = wholePortion + "." + decimalPortion.join("");
+            return +newNumber;
+        }
     }
 }
 
@@ -411,7 +413,7 @@ const getSolution = function( userInput ) {
         return "0";
     }
     let solution = +additionSubtractionTotal + +multiplicationDivisionTotal;
-    solution = roundToOneDecimalPoint(+solution);
+    solution = roundNumber(""+solution);
     return +solution;
 }
 
